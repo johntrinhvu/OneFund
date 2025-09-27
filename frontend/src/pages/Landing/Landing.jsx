@@ -4,6 +4,7 @@ import appleLogo from "../../assets/appleLogo.png";
 import SignInButton from "../../components/SignInButton/SignInButton";
 
 export default function Landing() {
+    const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:8000";
     return (
       <main className="min-h-screen text-slate-800">
         <div className="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-6">
@@ -29,7 +30,7 @@ export default function Landing() {
                   name="Google" 
                   logo={googleLogo}
                   onClick={() => {
-                    console.log("Google sign in clicked");
+                    window.location.href = `${API_BASE}/auth/google/login`;
                   }}
                 />
 
