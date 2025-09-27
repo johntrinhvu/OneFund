@@ -1,8 +1,11 @@
 import onefund from "../../assets/OneFundLogo.png";
+import googleLogo from "../../assets/googleLogo.png";
+import appleLogo from "../../assets/appleLogo.png";
+import SignInButton from "../../components/SignInButton/SignInButton";
 
 export default function Landing() {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-one-50 to-white text-slate-800">
+      <main className="min-h-screen text-slate-800">
         <div className="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-6">
           <section className="w-full max-w-md rounded-3xl bg-white/80 shadow-xl ring-1 ring-black/5 backdrop-blur p-8">
             <div className="flex flex-col items-center text-center">
@@ -22,8 +25,21 @@ export default function Landing() {
               </p>
   
               <div className="mt-8 w-full space-y-3">
-                {/* Placeholder Google OAuth */}
-                {/* Placeholder for Apple (hidden for now) */}
+                <SignInButton 
+                  name="Google" 
+                  logo={googleLogo}
+                  onClick={() => {
+                    console.log("Google sign in clicked");
+                  }}
+                />
+
+                <SignInButton 
+                  name="Apple" 
+                  logo={appleLogo}
+                  onClick={() => {
+                    console.log("Apple sign in clicked");
+                  }}
+                />
               </div>
   
               <p className="mt-6 text-xs text-slate-400">
