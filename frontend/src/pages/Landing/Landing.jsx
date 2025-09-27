@@ -1,0 +1,38 @@
+import onefund from "../../assets/OneFundLogo.png";
+
+export default function Landing() {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-one-50 to-white text-slate-800">
+        <div className="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-6">
+          <section className="w-full max-w-md rounded-3xl bg-white/80 shadow-xl ring-1 ring-black/5 backdrop-blur p-8">
+            <div className="flex flex-col items-center text-center">
+              <div className="-mb-12">
+                <img
+                  src={onefund}
+                  alt="OneFund"
+                  className="-mt-20 h-56"
+                />
+              </div>
+  
+              <h1 className="text-3xl font-semibold tracking-tight">
+                Welcome to <span className="text-one-600">OneFund</span>
+              </h1>
+              <p className="mt-2 text-sm text-slate-500">
+                Simple investing. One place.
+              </p>
+  
+              <div className="mt-8 w-full space-y-3">
+                {/* Placeholder Google OAuth */}
+                {/* Placeholder for Apple (hidden for now) */}
+              </div>
+  
+              <p className="mt-6 text-xs text-slate-400">
+                Created by John Vu
+              </p>
+            </div>
+          </section>
+        </div>
+      </main>
+    );
+  };
+  

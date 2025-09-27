@@ -1,7 +1,10 @@
+import { Routes, Route } from "react-router-dom";
+import Landing from "../Landing/Landing";
+
 export default function App() {
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<Landing />} />
+    </Routes>
   );
 };
