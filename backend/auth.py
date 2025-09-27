@@ -48,39 +48,24 @@ async def google_login(request: Request):
 
 @router.get("/google/callback", name="google_callback")
 async def google_callback(request: Request, db: Session = Depends(get_db)):
-    try:
-        token = await oauth.google.authorize_access_token(request)
-    except OAuthError as e:
-        body = getattr(getattr(e, "response", None), "text", "")
-        raise HTTPException(status_code=400, detail={"error": getattr(e, "error", "oauth_error"), "body": body})
+    token = await oauth.google.authorize_access_token(request)
 
-    # Get profile (via discovery userinfo or id_token fallback)
-    userinfo = token.get("userinfo")
-    if not userinfo:
-        userinfo = await oauth.google.parse_id_token(request, token)
+    userinfo = token.get("userinfo") or await oauth.google.parse_id_token(request, token)
+    sub = userinfo.get("sub"); email = userinfo.get("email")
+    name = userinfo.get("name"); picture = userinfo.get("picture")
 
-    sub = userinfo.get("sub")
-    email = userinfo.get("email")
-    name = userinfo.get("name")
-    picture = userinfo.get("picture")
-
-    if not sub or not email:
-        raise HTTPException(status_code=400, detail="Google profile missing sub/email")
-
+    created = False
     user = crud.get_user_by_google_sub(db, sub) or crud.get_user_by_email(db, email)
     if not user:
         user = crud.create_user(db, sub=sub, email=email, name=name, picture=picture)
+        created = True
 
     token_str = create_token({"uid": user.id})
-    resp = RedirectResponse(url=f"{FRONTEND_URL}/", status_code=HTTP_302_FOUND)
+    target = "/onboarding" if created else "/dashboard"  # 👈 choose destination here
+    resp = RedirectResponse(url=f"{FRONTEND_URL}{target}", status_code=302)
     resp.set_cookie(
-        key=COOKIE_NAME,
-        value=token_str,
-        httponly=True,
-        secure=False,
-        samesite="lax",
-        max_age=60 * 60 * 24 * 7,
-        path="/",
+        key=COOKIE_NAME, value=token_str, httponly=True, secure=False,
+        samesite="lax", max_age=60*60*24*7, path="/",
     )
     return resp
 
